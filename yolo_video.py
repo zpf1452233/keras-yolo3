@@ -3,6 +3,19 @@ import argparse
 from yolo import YOLO, detect_video
 from PIL import Image
 
+import glob
+import os
+
+def detect_img(yolo):
+    path = "./Image/BloodIMG2018/JPEGImages/*.jpg"
+    outdir = "./Image/BloodIMG2018/SegmentationClass"
+    for jpgfile in glob.glob(path):
+        img = Image.open(jpgfile)
+        img = yolo.detect_image(img)
+        img.save(os.path.join(outdir, os.path.basename(jpgfile)))
+    yolo.close_session()
+
+"""
 def detect_img(yolo):
     while True:
         img = input('Input image filename:')
@@ -15,6 +28,7 @@ def detect_img(yolo):
             r_image = yolo.detect_image(image)
             r_image.show()
     yolo.close_session()
+"""
 
 FLAGS = None
 
